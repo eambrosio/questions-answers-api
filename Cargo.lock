@@ -1054,12 +1054,14 @@ dependencies = [
 name = "questions-answers-api"
 version = "0.1.0"
 dependencies = [
+ "async-trait",
  "dotenvy",
  "log",
  "pretty_env_logger",
  "rocket",
  "serde",
  "sqlx",
+ "thiserror",
  "tokio",
 ]
 

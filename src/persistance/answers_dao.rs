@@ -1,5 +1,4 @@
 use async_trait::async_trait;
-use rocket::futures::TryFutureExt;
 use sqlx::PgPool;
 
 use crate::models::{postgres_error_codes, Answer, AnswerDetail, DBError};

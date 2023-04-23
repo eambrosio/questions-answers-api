@@ -3,6 +3,7 @@ use std::time::SystemTime;
 use crate::models::*;
 use rocket::{delete, get, post, serde::json::Json};
 
+mod handlers_inner;
 // ---- CRUD for Questions ----
 
 #[post("/question", data = "<question>")]

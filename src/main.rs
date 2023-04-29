@@ -16,6 +16,10 @@ use std::env;
 use cors::*;
 use dotenvy::dotenv;
 use handlers::*;
+use persistance::{
+    answers_dao::{AnswersDao, AnswersDaoImpl},
+    questions_dao::{QuestionsDao, QuestionsDaoImpl},
+};
 use sqlx::postgres::PgPoolOptions;
 
 #[launch]
@@ -28,6 +32,9 @@ async fn rocket() -> _ {
         .connect(&env::var("DATABASE_URL").expect("invalid database URL"))
         .await
         .expect("error while creating the connection pool");
+
+    let questions_dao = QuestionsDaoImpl::new(pool.clone());
+    let answers_dao = AnswersDaoImpl::new(pool);
 
     rocket::build()
         .mount(
@@ -42,4 +49,6 @@ async fn rocket() -> _ {
             ],
         )
         .attach(CORS)
+        .manage(Box::new(questions_dao) as Box<dyn QuestionsDao + Send + Sync>)
+        .manage(Box::new(answers_dao) as Box<dyn AnswersDao + Send + Sync>)
 }

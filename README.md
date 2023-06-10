@@ -9,6 +9,30 @@ This API has two primary features:
 
 ![api-gif](./api.gif)
 
+## Persistence layer
+
+For this purpose, we will PostgreSQL to store the info about Questions and Answers. The tables are:
+
+### Question
+
+| Name          | Type         | Description                                  |
+|---------------|--------------|----------------------------------------------|
+| question_uuid | UUID         | Generated identifier unique to each question |
+| title         | VARCHAR(255) | Title of the question                        |
+| description   | VARCHAR(255) | Description of the question                  |
+| created_at    | TIMESTAMP    | Creation timestamp of the question           |
+
+### Answer
+
+| Name          | Type         | Description                                  |
+|---------------|--------------|----------------------------------------------|
+| answer_uuid   | UUID         | Generated identifier unique to each answer   |
+| question_uuid | UUID         | Generated identifier unique to each question |
+| content       | VARCHAR(255) | Content of the answer                        |
+| created_at    | TIMESTAMP    | Creation timestamp of the answer             |
+
+As you can see, this is a very simple 1:N relationship between Questions and Answers. One question might have N answers potentially. If a question is deleted, all the related answeres will be deleted as well.
+
 ## Testing
 
 In order to test the, you need to run a docker container with a Postgres instances and execute the migration process to create the expected tables:
@@ -77,6 +101,7 @@ curl --request GET \
 	"question_uuid": "[UUID of a created question]"
 }'
 ```
+
 
 ### Delete answer
 
